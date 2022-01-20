@@ -4,9 +4,11 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -31,7 +33,8 @@ public class Core extends ApplicationAdapter {
 	private Skin skin;
 	private SpriteBatch spriteBatch;
 	private final ArrayMap<String, Viewport> viewports = new ArrayMap<>();
-	private final Array<TextureRegion> regions = new Array<>();
+	private final ArrayMap<String, TextureRegion> regions = new ArrayMap<>();
+	private int selectedRegionIndex;
 	private ViewportWidget viewportWidget;
 	public static final float DEFAULT_WIDTH = 400f;
 	public static final float DEFAULT_HEIGHT = 400f;
@@ -48,9 +51,9 @@ public class Core extends ApplicationAdapter {
 		}
 
 		skin = createSkin();
-		regions.add(skin.getRegion("sample-image1"));
-		regions.add(skin.getRegion("sample-image2"));
-		regions.add(skin.getRegion("sample-image3"));
+		regions.put("Living Room", skin.getRegion("sample-image1"));
+		regions.put("Badlogic", skin.getRegion("sample-image2"));
+		regions.put("libGDX", skin.getRegion("sample-image3"));
 
 		spriteBatch = new SpriteBatch();
 		stage = new Stage(new ScreenViewport(), spriteBatch);
@@ -64,8 +67,26 @@ public class Core extends ApplicationAdapter {
 		resizeWidget.getStack().setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		resizeWidget.setFillParent(true);
 		stage.addActor(resizeWidget);
-
-		SelectBox<String> selectBox = new SelectBox<String>(skin) {
+		
+		SelectBox<String> imageSelectBox = new SelectBox<String>(skin) {
+			@Override
+			public void act(float delta) {
+				super.act(delta);
+				//Keep the selectBox attached to the position of the viewportWidget
+				Actor actor = resizeWidget.getStack();
+				setPosition(actor.getX() + 14, actor.getY() + actor.getHeight() - 6);
+				viewportWidget.viewport.apply();
+			}
+		};
+		imageSelectBox.setItems(regions.keys().toArray());
+		imageSelectBox.setAlignment(Align.center);
+		changeListener(imageSelectBox, () -> {
+			selectedRegionIndex = imageSelectBox.getSelectedIndex();
+		});
+		imageSelectBox.pack();
+		stage.addActor(imageSelectBox);
+		
+		SelectBox<String> viewportSelectBox = new SelectBox<String>(skin) {
 			@Override
 			public void act(float delta) {
 				super.act(delta);
@@ -75,14 +96,15 @@ public class Core extends ApplicationAdapter {
 				viewportWidget.viewport.apply();
 			}
 		};
-		selectBox.setItems(viewports.keys().toArray());
-		selectBox.setAlignment(Align.center);
-		changeListener(selectBox, () -> {
-			viewportWidget.viewport = viewports.get(selectBox.getSelected());
+		viewportSelectBox.setItems(viewports.keys().toArray());
+		viewportSelectBox.setAlignment(Align.center);
+		changeListener(viewportSelectBox, () -> {
+			viewportWidget.viewport = viewports.get(viewportSelectBox.getSelected());
 			viewportWidget.viewport.apply();
 			viewportWidget.layout();
 		});
-		stage.addActor(selectBox);
+		viewportSelectBox.pack();
+		stage.addActor(viewportSelectBox);
 
 		Table root = new Table();
 		root.setFillParent(true);
@@ -91,6 +113,7 @@ public class Core extends ApplicationAdapter {
 
 		Label label = new Label("Resize the viewport by dragging the handles.\nGreen background is the visible area outside the specified world.", skin);
 		label.setAlignment(Align.center);
+		label.setTouchable(Touchable.disabled);
 		root.add(label).expandX();
 	}
 
@@ -108,7 +131,7 @@ public class Core extends ApplicationAdapter {
 		Drawable drawable = skin.getDrawable("pattern-10");
 		drawable.draw(spriteBatch, viewportWidget.viewport.getCamera().position.x  - Gdx.graphics.getWidth() / 2f, viewportWidget.viewport.getCamera().position.y - Gdx.graphics.getHeight() / 2f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		TextureRegion region = regions.get(0);
+		TextureRegion region = regions.getValueAt(selectedRegionIndex);
 		spriteBatch.draw(region, 0, 0);
 		spriteBatch.end();
 
