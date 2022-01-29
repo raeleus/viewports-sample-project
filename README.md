@@ -11,6 +11,12 @@ See, it doesn’t look like there’s anything wrong here. But, what if you resi
 
 Ahh, yes. That, indeed, looks like crap. And what if we want our game to work on various devices with different aspect ratios? We want everyone to have a similar experience and we certainly don’t want anyone to have an unfair advantage. We need to have some way of controlling that.
 
+## Interactive Sample
+
+View the interactive HTML5 sample here: https://raeleus.github.io/viewports-sample-project/
+
+This demonstrates the various Viewports and their behaviors.
+
 ## Demonstration Assets
 
 Place the following assets in your project's assets folder if you want to follow along: [Viewports Demo Assets.zip](https://github.com/raeleus/viewports-sample-project/files/7964323/Viewports.Demo.Assets.zip)
@@ -1032,6 +1038,7 @@ That’s viewports in a nutshell. Like I said, there isn’t much to them once y
 
 Please see the following pages for further information:  
 https://libgdx.com/wiki/graphics/viewports  
-https://libgdx.com/wiki/graphics/2d/orthographic-camera
+https://libgdx.com/wiki/graphics/2d/orthographic-camera  
+https://raeleus.github.io/viewports-sample-project/
 
 A very special thanks to Groxar, Lyze, and Peanut Panda for their contributions to this guide.
