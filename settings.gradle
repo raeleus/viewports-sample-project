@@ -1,1 +1,1 @@
-include 'core', 'html', 'lwjgl3', 'html2', 'core2', 'lwjgl32'
+include 'core', 'html', 'lwjgl3'
