@@ -45,6 +45,7 @@ public class Core extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(Color.BLACK);
         fitViewport.apply();
+        spriteBatch.setProjectionMatrix(fitViewport.getCamera().combined);
         spriteBatch.begin();
         spriteBatch.draw(textureRegion, 0, 0);
         spriteBatch.end();
@@ -93,6 +94,7 @@ public class Core extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(Color.BLACK);
         fillViewport.apply();
+        spriteBatch.setProjectionMatrix(fillViewport.getCamera().combined);
         spriteBatch.begin();
         spriteBatch.draw(textureRegion, 0, 0);
         spriteBatch.end();
