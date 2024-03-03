@@ -844,7 +844,7 @@ I think the gold standard for split screens is Lego Batman. And we can see here 
 
 ![Untitled_1 33 1](https://user-images.githubusercontent.com/60154347/170791077-287edb7a-f102-470e-ad7c-96c8a0993496.png)
 
-This technique is much more involved and actually leans more on camera manipulation and masks. Make sure to watch our [video on masks](https://youtu.be/qDKmcNFFFng) and see [Groxar's code example](https://github.com/Raxorg/Alejandria/blob/master/core/src/com/epicness/alejandria/module/modules/viewports/AdvancedSplitScreen.java).
+This technique is much more involved and actually leans more on camera manipulation and masks. Make sure to watch our [video on masks](https://youtu.be/qDKmcNFFFng) and see [Groxar's code example](https://github.com/Raxorg/Alejandria/blob/master/core/src/main/java/com/epicness/alejandria/showcase/modules/viewports/AdvancedSplitScreen.java).
 
 ## Filling the "Black Border"
 
